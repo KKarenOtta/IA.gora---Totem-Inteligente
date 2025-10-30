@@ -1,0 +1,156 @@
+# -*- coding: utf-8 -*-
+"""
+Módulo de funções do sistema Totem FlexMedia
+Contém todas as funcionalidades de validação, persistência e operações.
+"""
+
+import json
+import os
+
+ARQUIVO_DADOS = "totem_dados.json"
+
+# ==================== VALIDAÇÕES ====================
+
+def validar_titulo(titulo):
+    """Valida se o título não está vazio e tem tamanho adequado."""
+    titulo = titulo.strip()
+    if not titulo:
+        return False, "O título não pode estar vazio."
+    if len(titulo) < 3:
+        return False, "O título deve ter pelo menos 3 caracteres."
+    return True, ""
+
+
+def validar_tipo(tipo):
+    """Valida se o tipo está entre as opções permitidas."""
+    tipos_validos = ["educativo", "cultural", "lazer"]
+    tipo = tipo.lower().strip()
+    if tipo in tipos_validos:
+        return True, tipo
+    return False, "Tipo inválido! Escolha entre: educativo, cultural ou lazer."
+
+
+def validar_descricao(descricao):
+    """Valida se a descrição não está vazia."""
+    descricao = descricao.strip()
+    if not descricao:
+        return False, "A descrição não pode estar vazia."
+    return True, ""
+
+# ==================== PERSISTÊNCIA ====================
+
+def carregar_dados():
+    """Carrega informações do arquivo JSON."""
+    if os.path.exists(ARQUIVO_DADOS):
+        try:
+            with open(ARQUIVO_DADOS, 'r', encoding='utf-8') as arquivo:
+                return json.load(arquivo)
+        except:
+            return []
+    return []
+
+
+def salvar_dados(lista):
+    """Salva informações no arquivo JSON."""
+    try:
+        with open(ARQUIVO_DADOS, 'w', encoding='utf-8') as arquivo:
+            json.dump(lista, arquivo, ensure_ascii=False, indent=2)
+    except:
+        print("Erro ao salvar dados.")
+
+# ==================== OPERAÇÕES ====================
+
+def cadastrar_informacao(lista):
+    """Cadastra uma nova informação na lista com validação de dados."""
+    print("\n--- Cadastrar Nova Informação ---")
+
+    while True:
+        titulo = input("Digite o título: ")
+        valido, msg = validar_titulo(titulo)
+        if valido:
+            break
+        print(f"Erro: {msg}")
+
+    while True:
+        print("Tipos disponíveis: educativo, cultural, lazer")
+        tipo = input("Digite o tipo: ")
+        valido, resultado = validar_tipo(tipo)
+        if valido:
+            tipo = resultado
+            break
+        print(f"Erro: {resultado}")
+
+    while True:
+        descricao = input("Digite a descrição: ")
+        valido, msg = validar_descricao(descricao)
+        if valido:
+            break
+        print(f"Erro: {msg}")
+
+    informacao = {"titulo": titulo, "tipo": tipo, "descricao": descricao}
+    lista.append(informacao)
+    salvar_dados(lista)
+    print("\n✓ Informação cadastrada com sucesso!")
+
+
+def listar_informacoes(lista):
+    """Exibe todas as informações cadastradas."""
+    print("\n--- Informações Cadastradas ---")
+
+    if not lista:
+        print("Nenhuma informação cadastrada ainda.")
+        return
+
+    for i, info in enumerate(lista, start=1):
+        print(f"\n{'='*40}")
+        print(f"Informação {i}:")
+        print(f"Título: {info['titulo']}")
+        print(f"Tipo: {info['tipo']}")
+        print(f"Descrição: {info['descricao']}")
+    print(f"{'='*40}")
+    print(f"\nTotal de informações: {len(lista)}")
+
+
+def pesquisar_por_tipo(lista):
+    """Pesquisa e exibe informações filtradas por tipo."""
+    print("\n--- Pesquisar Informações por Tipo ---")
+
+    if not lista:
+        print("Nenhuma informação cadastrada ainda.")
+        return
+
+    while True:
+        print("Tipos disponíveis: educativo, cultural, lazer")
+        tipo_busca = input("Digite o tipo que deseja pesquisar: ")
+        valido, resultado = validar_tipo(tipo_busca)
+        if valido:
+            tipo_busca = resultado
+            break
+        print(f"Erro: {resultado}")
+
+    resultados = [info for info in lista if info["tipo"] == tipo_busca]
+
+    if not resultados:
+        print(f"\nNenhuma informação do tipo '{tipo_busca}' foi encontrada.")
+    else:
+        print(f"\n--- Resultados para o tipo '{tipo_busca}' ---")
+        for i, info in enumerate(resultados, start=1):
+            print(f"\n{'='*40}")
+            print(f"Resultado {i}:")
+            print(f"Título: {info['titulo']}")
+            print(f"Tipo: {info['tipo']}")
+            print(f"Descrição: {info['descricao']}")
+        print(f"{'='*40}")
+        print(f"\nTotal de resultados encontrados: {len(resultados)}")
+
+
+def exibir_menu():
+    """Exibe o menu principal do sistema."""
+    print("\n" + "="*40)
+    print("      TOTEM FLEXMEDIA - SPRINT 2")
+    print("="*40)
+    print("1 - Cadastrar informação")
+    print("2 - Listar informações cadastradas")
+    print("3 - Pesquisar informações por tipo")
+    print("0 - Sair")
+    print("="*40)
