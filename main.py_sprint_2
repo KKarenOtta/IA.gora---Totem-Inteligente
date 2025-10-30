@@ -1,0 +1,45 @@
+"""
+TOTEM FLEXMEDIA - SPRINT 2
+Programa principal
+"""
+
+from funcoes import (
+    carregar_dados,
+    cadastrar_informacao,
+    listar_informacoes,
+    pesquisar_por_tipo,
+    exibir_menu
+)
+
+
+def main():
+    """Função principal do programa."""
+    print("\n" + "="*40)
+    print("  Bem-vindo ao Totem FlexMedia!")
+    print("="*40)
+
+    informacoes = carregar_dados()
+    if informacoes:
+        print(f"\n{len(informacoes)} informações carregadas do arquivo.")
+
+    while True:
+        exibir_menu()
+        opcao = input("\nEscolha uma opção: ")
+
+        if opcao == "1":
+            cadastrar_informacao(informacoes)
+        elif opcao == "2":
+            listar_informacoes(informacoes)
+        elif opcao == "3":
+            pesquisar_por_tipo(informacoes)
+        elif opcao == "0":
+            print("\n" + "="*40)
+            print("  Até logo e volte sempre!")
+            print("="*40)
+            break
+        else:
+            print("\nOpção inválida! Tente novamente.")
+
+
+if __name__ == "__main__":
+    main()
