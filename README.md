@@ -7,11 +7,11 @@ Challenge - Fiap 2025
 Criar um protótipo de totem inteligente interativo em Python.
 
 ## Desenvolvido por:
-ERICK MIGUEL 
-KAREN OTA 
-LEONARDO MELO 
-LEONARDO PEREIRA 
-SARAH FURLAN
+ERICK MIGUEL|
+KAREN OTA|
+LEONARDO MELO|
+LEONARDO PEREIRA|
+SARAH FURLAN|
 
 
 ## Entrega da Sprint 1
