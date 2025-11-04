@@ -6,6 +6,14 @@ Challenge - Fiap 2025
 ## Objetivo
 Criar um protótipo de totem inteligente interativo em Python.
 
+## Desenvolvido por:
+ERICK MIGUEL 
+KAREN OTA 
+LEONARDO MELO 
+LEONARDO PEREIRA 
+SARAH FURLAN
+
+
 ## Entrega da Sprint 1
 Desenvolvimento de um programa em Python com menu inicial interativo e funcionalidades de cadastro e listagem de informações. O programa utiliza listas, dicionários, estruturas de decisão (if/else), laços de repetição (while) e funções para gerenciar informações educativas, culturais e de lazer.
 
